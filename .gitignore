@@ -1,2 +1,4 @@
 data-intelligence-agent/
 supabase-login-page/
+node_modules/
+.env

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: encuestaonline
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: AIRTABLE_TOKEN
+        sync: false
+      - key: AIRTABLE_BASE
+        sync: false
+      - key: AIRTABLE_TABLE
+        sync: false
+      - key: N8N_WEBHOOK
+        sync: false

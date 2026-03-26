@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encuesta - Curso Antigravity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-1: #2a003f;
+      --bg-2: #5b1a8f;
+      --bg-3: #c21874;
+      --accent-1: #ff4fb3;
+      --accent-2: #b86bff;
+      --accent-soft: rgba(255, 79, 179, 0.28);
+      --glow-soft: rgba(232, 121, 249, 0.38);
+      --star: #ff7ad9;
+      --danger: #f87171;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 2.5rem 2.8rem;
+      width: 100%;
+      max-width: 560px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1.6rem;
+    }
+
+    .logo-icon {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 8px 24px var(--glow-soft);
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 1.55rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+    }
+
+    .field { margin-bottom: 1.6rem; }
+
+    label {
+      display: block;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.55rem;
+      letter-spacing: 0.02em;
+    }
+
+    label span { color: var(--accent-1); margin-left: 3px; }
+
+    input[type="text"], textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      font-size: 0.95rem;
+      padding: 0.7rem 1rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    input[type="text"]::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    .rating-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .rating-group input { display: none; }
+
+    .rating-group label {
+      cursor: pointer;
+      font-size: 1.9rem;
+      color: rgba(255, 255, 255, 0.2);
+      transition: color 0.15s, transform 0.15s;
+      margin-bottom: 0;
+      font-weight: 400;
+      user-select: none;
+    }
+
+    .rating-group label:hover,
+    .rating-group label:hover ~ label,
+    .rating-group input:checked ~ label {
+      color: var(--star);
+    }
+
+    .rating-group label:hover { transform: scale(1.2); }
+
+    .rating-hint {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 0.35rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 1.8rem 0;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px var(--glow-soft);
+    }
+
+    button[type="submit"]:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(232, 121, 249, 0.5); }
+    button[type="submit"]:active { transform: translateY(0); opacity: 1; }
+    button[disabled] { opacity: 0.7; cursor: wait; }
+
+    .success {
+      display: none;
+      text-align: center;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .success-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .success h2 { color: #fff; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .success p { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; }
+
+    .error-msg,
+    .banner {
+      color: var(--danger);
+      font-size: 0.82rem;
+    }
+
+    .error-msg {
+      margin-top: 0.3rem;
+      display: none;
+    }
+
+    .banner {
+      text-align: center;
+      margin-top: 0.8rem;
+      min-height: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 1.5rem;
+        border-radius: 20px;
+      }
+
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="form-section">
+      <div class="logo">
+        <div class="logo-icon">AG</div>
+      </div>
+      <h1>Encuesta del Curso</h1>
+      <p class="subtitle">Antigravity · Tu opinion nos ayuda a mejorar</p>
+
+      <form id="survey-form" novalidate>
+        <div class="field">
+          <label for="id_estudiante">ID de Estudiante <span>*</span></label>
+          <input type="text" id="id_estudiante" name="id_estudiante" placeholder="Ej. EST-2024-001" autocomplete="off" />
+          <p class="error-msg" id="err-id">Por favor ingresa tu ID de estudiante.</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="field">
+          <label>Nivel de Satisfaccion <span>*</span></label>
+          <div class="rating-group" role="radiogroup" aria-label="Nivel de satisfaccion">
+            <input type="radio" id="sat5" name="nivel_satisfaccion" value="5" /><label for="sat5" title="Muy satisfecho">&#9733;</label>
+            <input type="radio" id="sat4" name="nivel_satisfaccion" value="4" /><label for="sat4" title="Satisfecho">&#9733;</label>
+            <input type="radio" id="sat3" name="nivel_satisfaccion" value="3" /><label for="sat3" title="Neutral">&#9733;</label>
+            <input type="radio" id="sat2" name="nivel_satisfaccion" value="2" /><label for="sat2" title="Insatisfecho">&#9733;</label>
+            <input type="radio" id="sat1" name="nivel_satisfaccion" value="1" /><label for="sat1" title="Muy insatisfecho">&#9733;</label>
+          </div>
+          <p class="rating-hint">1 = Muy insatisfecho · 5 = Muy satisfecho</p>
+          <p class="error-msg" id="err-satisfaccion">Por favor selecciona una opcion.</p>
+        </div>
+
+        <div class="field">
+          <label>Claridad del Contenido <span>*</span></label>
+          <div class="rating-group" role="radiogroup" aria-label="Claridad del contenido">
+            <input type="radio" id="cla5" name="claridad_contenido" value="5" /><label for="cla5" title="Muy claro">&#9733;</label>
+            <input type="radio" id="cla4" name="claridad_contenido" value="4" /><label for="cla4" title="Claro">&#9733;</label>
+            <input type="radio" id="cla3" name="claridad_contenido" value="3" /><label for="cla3" title="Regular">&#9733;</label>
+            <input type="radio" id="cla2" name="claridad_contenido" value="2" /><label for="cla2" title="Poco claro">&#9733;</label>
+            <input type="radio" id="cla1" name="claridad_contenido" value="1" /><label for="cla1" title="Muy poco claro">&#9733;</label>
+          </div>
+          <p class="rating-hint">1 = Muy poco claro · 5 = Muy claro</p>
+          <p class="error-msg" id="err-claridad">Por favor selecciona una opcion.</p>
+        </div>
+
+        <div class="field">
+          <label>Aplicabilidad Practica <span>*</span></label>
+          <div class="rating-group" role="radiogroup" aria-label="Aplicabilidad practica">
+            <input type="radio" id="apl5" name="aplicabilidad_practica" value="5" /><label for="apl5" title="Muy aplicable">&#9733;</label>
+            <input type="radio" id="apl4" name="aplicabilidad_practica" value="4" /><label for="apl4" title="Aplicable">&#9733;</label>
+            <input type="radio" id="apl3" name="aplicabilidad_practica" value="3" /><label for="apl3" title="Moderado">&#9733;</label>
+            <input type="radio" id="apl2" name="aplicabilidad_practica" value="2" /><label for="apl2" title="Poco aplicable">&#9733;</label>
+            <input type="radio" id="apl1" name="aplicabilidad_practica" value="1" /><label for="apl1" title="Nada aplicable">&#9733;</label>
+          </div>
+          <p class="rating-hint">1 = Nada aplicable · 5 = Muy aplicable</p>
+          <p class="error-msg" id="err-aplicabilidad">Por favor selecciona una opcion.</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="field">
+          <label for="comentarios_adicionales">Comentarios Adicionales <span style="color: rgba(255, 255, 255, 0.3); font-weight: 400;">(opcional)</span></label>
+          <textarea id="comentarios_adicionales" name="comentarios_adicionales" placeholder="Que mejorarias? Que fue lo mas valioso?"></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn">Enviar Encuesta</button>
+        <p id="api-error-banner" class="banner"></p>
+      </form>
+    </div>
+
+    <div class="success" id="success-section">
+      <div class="success-icon">Gracias</div>
+      <h2>Respuesta enviada</h2>
+      <p>Tu opinion hace que el curso Antigravity siga mejorando.</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("survey-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const banner = document.getElementById("api-error-banner");
+
+    function selectedValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : "";
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      const idVal = document.getElementById("id_estudiante").value.trim();
+      document.getElementById("err-id").style.display = idVal ? "none" : "block";
+      if (!idVal) valid = false;
+
+      const ratings = [
+        { name: "nivel_satisfaccion", errId: "err-satisfaccion" },
+        { name: "claridad_contenido", errId: "err-claridad" },
+        { name: "aplicabilidad_practica", errId: "err-aplicabilidad" }
+      ];
+
+      ratings.forEach((rating) => {
+        const hasValue = Boolean(selectedValue(rating.name));
+        document.getElementById(rating.errId).style.display = hasValue ? "none" : "block";
+        if (!hasValue) valid = false;
+      });
+
+      return valid;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      banner.textContent = "";
+
+      if (!validateForm()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+
+      const payload = {
+        id_estudiante: document.getElementById("id_estudiante").value.trim(),
+        nivel_satisfaccion: selectedValue("nivel_satisfaccion"),
+        claridad_contenido: selectedValue("claridad_contenido"),
+        aplicabilidad_practica: selectedValue("aplicabilidad_practica"),
+        comentarios_adicionales: document.getElementById("comentarios_adicionales").value.trim()
+      };
+
+      try {
+        const response = await fetch("/api/survey", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || "Error inesperado");
+        }
+
+        document.getElementById("form-section").style.display = "none";
+        document.getElementById("success-section").style.display = "block";
+      } catch (error) {
+        banner.textContent = `No se pudo guardar la respuesta: ${error.message}`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar Encuesta";
+      }
+    });
+  </script>
+</body>
+</html>
